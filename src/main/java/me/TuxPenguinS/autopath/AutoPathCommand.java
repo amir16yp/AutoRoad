@@ -38,22 +38,30 @@ public class AutoPathCommand implements CommandExecutor {
                 }
 
 
-            } else if (command.getName().equals("AutoBridge"))
+            } else if (command.getName().equals("AutoPathTerrain"))
             {
-            if (!AutoPathUtils.bridgeModeEnabledForPlayer.getOrDefault(player.getDisplayName(), false))
-            {
-                AutoPathUtils.bridgeModeEnabledForPlayer.put(player.getDisplayName(), true);
-                player.sendMessage("AutoPath bridge mode Enabled");
+                Material[] materials = new Material[args.length];
+                for (int i = 0; i <= args.length -1; i++)
+                {
+                    try
+                    {
+                        String materialName = args[i];
+                        materials[i] = Material.valueOf(materialName);
+                        if (!materials[i].isBlock())
+                        {
+                            AutoPathUtils.sendErrorMessage(player, "This material isn't a placeable block.");
+                            return true;
+                        } else {
+                            player.sendMessage(ChatColor.GREEN + materialName + " OK");
+                        }
+                    } catch (Exception e)
+                    {
+                        AutoPathUtils.sendErrorMessage(player, e.getMessage());
+                    }
+                }
+                AutoPathUtils.pathTerrianForPlayer.put(player.getDisplayName(), materials);
             }
-
-            else
-            {
-                AutoPathUtils.bridgeModeEnabledForPlayer.put(player.getDisplayName(), false);
-                player.sendMessage("AutoPath bridge mode Disabled");
-            }
-
-        }
-        else if (command.getName().equals("AutoPathMaterial"))
+            else if (command.getName().equals("AutoPathMaterial"))
             {
                 if (args.length < 3)
                 {
@@ -65,21 +73,19 @@ public class AutoPathCommand implements CommandExecutor {
                     {
                         try
                         {
-                            String materialname = args[i];
-                            materialname = materialname.replaceAll("LEGACY_", "").replaceAll("_LEGACY", "");
-                            materials[i] = Material.valueOf(materialname);
+                            String materialName = args[i];
+                            //materialName = materialName.replaceAll("LEGACY_", "").replaceAll("_LEGACY", "");
+                            materials[i] = Material.valueOf(materialName);
                             if (!materials[i].isBlock())
                             {
-                                player.sendMessage(ChatColor.RED + args[i] + " ERROR");
-                                player.sendMessage("This material isn't a placeable block.");
+                                AutoPathUtils.sendErrorMessage(player,"This material isn't a placeable block.");
                                 return true;
                             } else {
-                                player.sendMessage(ChatColor.GREEN + materialname + " OK");
+                                player.sendMessage(ChatColor.GREEN + materialName + " OK");
                             }
                         } catch (Exception e)
                         {
-                            player.sendMessage(ChatColor.RED + args[i] + "ERROR");
-                            player.sendMessage(e.getMessage());
+                            AutoPathUtils.sendErrorMessage(player, e.getMessage());
                         }
 
                     }

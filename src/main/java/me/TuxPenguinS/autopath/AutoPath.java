@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -22,7 +23,8 @@ public class AutoPath extends JavaPlugin implements Listener {
         getLogger().info("AutoPath plugin enabled.");
         AutoPathCommand commandExecutor = new AutoPathCommand();
         getCommand("AutoPath").setExecutor(commandExecutor);
-        getCommand("AutoBridge").setExecutor(commandExecutor);
+        getCommand("AutoPathTerrain").setExecutor(commandExecutor);
+        getCommand("AutoPathTerrain").setTabCompleter(new AutoPathTabCompleter());
         getCommand("AutoPathMaterial").setExecutor(commandExecutor);
         getCommand("AutoPathMaterial").setTabCompleter(new AutoPathTabCompleter());
         getServer().getPluginManager().registerEvents(this, this);
@@ -47,12 +49,14 @@ public class AutoPath extends JavaPlugin implements Listener {
             for (Block block: blocksBeneathPlayer)
             {
                 //System.out.println(block.getType().name());
-                List<Material> stepOnMaterials = new ArrayList<Material>();
-                stepOnMaterials.add(Material.GRASS_BLOCK);
-                if (AutoPathUtils.bridgeModeEnabledForPlayer.get(player.getDisplayName()))
-                {
-                    stepOnMaterials.add(Material.AIR);
-                }
+                List<Material> stepOnMaterials = Arrays.asList(
+                        AutoPathUtils.pathTerrianForPlayer.getOrDefault(
+                                player.getDisplayName(),
+                                new Material[]
+                                        { Material.GRASS_BLOCK,
+                                                Material.PODZOL
+                                        })
+                );
                 if (stepOnMaterials.contains(block.getType()))
                 {
                     block.setType(replaceWith[rand.nextInt(replaceWith.length)]);

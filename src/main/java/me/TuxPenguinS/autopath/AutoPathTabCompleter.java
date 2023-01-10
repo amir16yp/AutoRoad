@@ -9,7 +9,7 @@ import java.util.List;
 public class AutoPathTabCompleter implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args)
     {
-        if (command.getName().equals("AutoPathMaterial"))
+        if (command.getName().equals("AutoPathMaterial") || command.getName().equals("AutoPathTerrain"))
         {
             if (args.length != 0)
             {

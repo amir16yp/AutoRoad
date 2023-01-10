@@ -1,15 +1,15 @@
 name: Autopath
 version: '${project.version}'
 main: me.TuxPenguinS.autopath.AutoPath
-api-version: 1.15
+api-version: 1.13
 commands:
   AutoPath:
     description: Enable or disable AutoPath
     usage: /<command>
     aliases: [autopath]
-  AutoBridge:
-    description: Enable or disable bridge mode
-    usage: /<command>
+  AutoPathTerrain:
+    description: Set block types for the terrain a path will be on.
+    usage: /<command> [BLOCK 1] [BLOCK 2], ...
   AutoPathMaterial:
     description: Set block types for AutoPath
-    usage: /<command> [BLOCK 1] [BLOCK 2] [BLOCK 3]
+    usage: /<command> [BLOCK 1] [BLOCK 2] [BLOCK 3], ...

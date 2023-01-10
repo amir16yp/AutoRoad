@@ -14,7 +14,7 @@ import java.util.Map;
 public class AutoPathUtils
 {
     public static Map<String, Boolean> enabledForPlayer =  new HashMap<String, Boolean>();
-    public static Map<String, Boolean> bridgeModeEnabledForPlayer = new HashMap<String, Boolean>();
+    public static Map<String, Material[]> pathTerrianForPlayer = new HashMap<String, Material[]>();
 
     public enum Yaw {
         NORTH, SOUTH, EAST, WEST;
